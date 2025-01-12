@@ -1,11 +1,12 @@
 - name: configure mysql server
-  hosts: mysql
+  hosts: local
   become: yes
+
   tasks:
   - name: Install MySQL Libraries
-    ansible.builtin.pip
-     name: {{ item }}
-     state: installed
+    ansible.builtin.pip:
+     name: "{{ item }}"
+     state: present
      executable: pip3.9
     loop:
     - cryptography
@@ -18,7 +19,7 @@
 
   - name: Start and enable MySQL Server
     ansible.builtin.service:
-     name: mysql-server
+     name: mysqld
      state: started
      enabled: yes
 
